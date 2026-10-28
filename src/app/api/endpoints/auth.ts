@@ -1,6 +1,8 @@
 import type { Credentials, User } from '@/types';
 import { ApiError, apiRequest, getToken, setToken, USE_MOCKS } from '../client';
-import { mockGetMe, mockSignIn, mockSignOut } from '../mock';
+
+/** Import dinamico: i mock finiscono in un chunk separato, mai scaricato con il backend vero. */
+const loadMocks = () => import('../mock');
 
 interface LoginResponse {
   token: string;
@@ -13,7 +15,7 @@ interface MeResponse {
 
 /** Utente della sessione corrente, o null se non autenticato. */
 export async function getMe(): Promise<User | null> {
-  if (USE_MOCKS) return mockGetMe();
+  if (USE_MOCKS) return (await loadMocks()).mockGetMe();
   if (!getToken()) return null;
   try {
     const { user } = await apiRequest<MeResponse>('/auth/me');
@@ -28,7 +30,7 @@ export async function getMe(): Promise<User | null> {
 }
 
 export async function signIn(credentials: Credentials): Promise<User> {
-  if (USE_MOCKS) return mockSignIn(credentials);
+  if (USE_MOCKS) return (await loadMocks()).mockSignIn(credentials);
   const { token, user } = await apiRequest<LoginResponse>('/auth/login', {
     method: 'POST',
     body: { username: credentials.username, password: credentials.password },
@@ -39,6 +41,6 @@ export async function signIn(credentials: Credentials): Promise<User> {
 
 /** Il JWT non ha stato sul server: uscire significa scartare il token. */
 export async function signOut(): Promise<void> {
-  if (USE_MOCKS) return mockSignOut();
+  if (USE_MOCKS) return (await loadMocks()).mockSignOut();
   setToken(null);
 }

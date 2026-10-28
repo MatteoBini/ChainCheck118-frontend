@@ -1,15 +1,19 @@
-import { useId, useState, type FormEvent } from 'react';
+import { useEffect, useId, useState, type FormEvent } from 'react';
 import { LinkIcon } from 'lucide-react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ApiError, USE_MOCKS } from '@/app/api';
-import { MOCK_PASSWORD, MOCK_USERS } from '@/app/api/mock';
 import { homePathFor } from '@/components/layout';
 import { roleLabel } from '@/lib';
-import type { Credentials } from '@/types';
+import type { Credentials, User } from '@/types';
 import { useAuth } from './useAuth';
 
 interface LocationState {
   from?: string;
+}
+
+interface DemoAccounts {
+  users: readonly User[];
+  password: string;
 }
 
 export function LoginPage() {
@@ -21,6 +25,19 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [demo, setDemo] = useState<DemoAccounts | null>(null);
+
+  /** Gli utenti di prova si caricano solo con i mock attivi, così restano fuori dal bundle principale. */
+  useEffect(() => {
+    if (!USE_MOCKS) return;
+    let active = true;
+    void import('@/app/api/mock').then(({ MOCK_USERS, MOCK_PASSWORD }) => {
+      if (active) setDemo({ users: MOCK_USERS, password: MOCK_PASSWORD });
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const from = (location.state as LocationState | null)?.from;
 
@@ -108,21 +125,21 @@ export function LoginPage() {
           </div>
         </form>
 
-        {USE_MOCKS && (
+        {demo && (
           <div className="auth-roles">
             <p className="field-hint">Ambiente dimostrativo: entra con uno degli utenti di prova.</p>
-            {MOCK_USERS.map((demo) => (
+            {demo.users.map((account) => (
               <button
-                key={demo.username}
+                key={account.username}
                 type="button"
                 className="btn auth-role"
                 disabled={pending}
-                onClick={() => void submit({ username: demo.username, password: MOCK_PASSWORD })}
+                onClick={() => void submit({ username: account.username, password: demo.password })}
               >
                 <span className="auth-role-text">
-                  <span>{roleLabel(demo)}</span>
+                  <span>{roleLabel(account)}</span>
                   <span className="auth-role-sub">
-                    {demo.fullName} · {demo.username}
+                    {account.fullName} · {account.username}
                   </span>
                 </span>
               </button>
