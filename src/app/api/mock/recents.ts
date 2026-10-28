@@ -1,4 +1,5 @@
 import type { RecentEntry, Role } from '@/types';
+import { delay } from './delay';
 
 /** Segnaposto della lista "Recenti": verrà sostituita dallo storico reale. */
 export const MOCK_RECENTS: Readonly<Record<Role, readonly RecentEntry[]>> = {
@@ -15,3 +16,8 @@ export const MOCK_RECENTS: Readonly<Record<Role, readonly RecentEntry[]>> = {
   ],
   OPERATORE: [],
 };
+
+export async function mockGetRecents(role: Role): Promise<readonly RecentEntry[]> {
+  await delay(200);
+  return MOCK_RECENTS[role];
+}

@@ -1,5 +1,4 @@
 import { LinkIcon, PanelLeft } from 'lucide-react';
-import { getRecents } from '@/app/api';
 import type { User } from '@/types';
 import { NAV_CONFIG } from './navConfig';
 import { SidebarLink } from './SidebarLink';
@@ -46,7 +45,7 @@ export function Sidebar({ user, collapsed, onToggle }: SidebarProps) {
         ))}
       </nav>
 
-      {nav.recentsTitle && <SidebarRecents title={nav.recentsTitle} entries={getRecents(user.role)} />}
+      {nav.recentsTitle && <SidebarRecents title={nav.recentsTitle} role={user.role} />}
 
       <div className="sb-spacer" />
       <SidebarStatus />

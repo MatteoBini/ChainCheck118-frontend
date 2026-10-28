@@ -1,13 +1,32 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { RecentEntry } from '@/types';
+import { getRecents } from '@/app/api';
+import type { RecentEntry, Role } from '@/types';
 import { PATHS } from './navConfig';
 
 interface SidebarRecentsProps {
   title: string;
-  entries: readonly RecentEntry[];
+  role: Role;
 }
 
-export function SidebarRecents({ title, entries }: SidebarRecentsProps) {
+export function SidebarRecents({ title, role }: SidebarRecentsProps) {
+  const [entries, setEntries] = useState<readonly RecentEntry[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    setEntries([]);
+    getRecents(role)
+      .then((list) => {
+        if (active) setEntries(list);
+      })
+      .catch(() => {
+        /* la lista è accessoria: in caso di errore resta nascosta */
+      });
+    return () => {
+      active = false;
+    };
+  }, [role]);
+
   if (entries.length === 0) return null;
   const headingId = 'sb-recents-title';
 
