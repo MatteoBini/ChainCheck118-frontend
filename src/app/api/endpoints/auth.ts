@@ -21,10 +21,8 @@ export async function getMe(): Promise<User | null> {
     const { user } = await apiRequest<MeResponse>('/auth/me');
     return user;
   } catch (error) {
-    if (error instanceof ApiError && error.status === 401) {
-      setToken(null);
-      return null;
-    }
+    // Il token è già stato scartato da apiRequest.
+    if (error instanceof ApiError && error.status === 401) return null;
     throw error;
   }
 }

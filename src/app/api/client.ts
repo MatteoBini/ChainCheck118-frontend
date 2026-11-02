@@ -33,6 +33,18 @@ interface ErrorBody {
   error?: { code?: string; message?: string };
 }
 
+type UnauthorizedHandler = () => void;
+
+let onUnauthorized: UnauthorizedHandler | null = null;
+
+/**
+ * Registra il callback invocato quando il backend rifiuta il token
+ * (scaduto o non valido): tipicamente chiude la sessione lato client.
+ */
+export function setUnauthorizedHandler(handler: UnauthorizedHandler | null): void {
+  onUnauthorized = handler;
+}
+
 type JsonBody = Record<string, unknown> | readonly unknown[];
 
 interface RequestOptions {
@@ -57,6 +69,11 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const response = await fetch(`${API_BASE_URL}${path}`, init);
   if (!response.ok) {
+    // Solo se avevamo inviato un token: un 401 senza token (es. login errato) non è una sessione scaduta.
+    if (response.status === 401 && token) {
+      setToken(null);
+      onUnauthorized?.();
+    }
     const payload = (await response.json().catch(() => null)) as ErrorBody | null;
     throw new ApiError(
       response.status,

@@ -40,6 +40,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
   }, []);
 
+  // Un 401 su qualsiasi chiamata autenticata chiude la sessione: RequireAuth riporta al login.
+  useEffect(() => {
+    api.setUnauthorizedHandler(() => void signOut());
+    return () => api.setUnauthorizedHandler(null);
+  }, [signOut]);
+
   const value = useMemo<AuthContextValue>(
     () => ({ status, user, signIn, signOut }),
     [status, user, signIn, signOut],
