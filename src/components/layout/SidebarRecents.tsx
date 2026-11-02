@@ -10,14 +10,17 @@ interface SidebarRecentsProps {
 }
 
 export function SidebarRecents({ title, role }: SidebarRecentsProps) {
-  const [entries, setEntries] = useState<readonly RecentEntry[]>([]);
+  const [loaded, setLoaded] = useState<{ role: Role; entries: readonly RecentEntry[] } | null>(
+    null,
+  );
+  // i dati caricati per un ruolo precedente non vanno mostrati
+  const entries = loaded?.role === role ? loaded.entries : [];
 
   useEffect(() => {
     let active = true;
-    setEntries([]);
     getRecents(role)
       .then((list) => {
-        if (active) setEntries(list);
+        if (active) setLoaded({ role, entries: list });
       })
       .catch(() => {
         /* la lista è accessoria: in caso di errore resta nascosta */
