@@ -1,6 +1,6 @@
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import { LinkIcon } from 'lucide-react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { ApiError, USE_MOCKS } from '@/app/api';
 import { homePathFor } from '@/components/layout';
 import { roleLabel } from '@/lib';
@@ -18,7 +18,6 @@ interface DemoAccounts {
 
 export function LoginPage() {
   const { user, signIn } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
   const ids = useId();
   const [username, setUsername] = useState('');
@@ -41,6 +40,7 @@ export function LoginPage() {
 
   const from = (location.state as LocationState | null)?.from;
 
+  // Unico punto di redirect: signIn aggiorna user e il re-render porta qui.
   if (user) return <Navigate to={from ?? homePathFor(user.role)} replace />;
 
   const valid = username.trim().length > 0 && password.length > 0;
@@ -49,8 +49,7 @@ export function LoginPage() {
     setPending(true);
     setError(null);
     try {
-      const me = await signIn(credentials);
-      navigate(from ?? homePathFor(me.role), { replace: true });
+      await signIn(credentials);
     } catch (err) {
       setError(
         err instanceof ApiError && err.status === 401
