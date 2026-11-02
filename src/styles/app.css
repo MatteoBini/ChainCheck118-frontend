@@ -694,6 +694,14 @@ a {
   gap: 20px;
 }
 
+.auth-brand {
+  padding-left: 0;
+}
+
+.auth-lead {
+  margin-top: 4px;
+}
+
 .auth-roles {
   display: flex;
   flex-direction: column;
@@ -718,4 +726,23 @@ a {
   font-size: 12.5px;
   font-weight: 400;
   color: var(--ink3);
+}
+
+/* ---------- Profilo ---------- */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.profile-role {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--ink2);
 }

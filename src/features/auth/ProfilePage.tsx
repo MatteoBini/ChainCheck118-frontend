@@ -34,13 +34,13 @@ export function ProfilePage() {
         </button>
       }
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div className="profile-head">
         <span className="avatar avatar-lg" aria-hidden="true">
           {initials(user)}
         </span>
         <div>
-          <div style={{ fontSize: 20, fontWeight: 600, letterSpacing: '-0.01em' }}>{user.fullName}</div>
-          <div style={{ fontSize: 14, color: 'var(--ink2)', marginTop: 2 }}>{roleLabel(user)}</div>
+          <div className="profile-name">{user.fullName}</div>
+          <div className="profile-role">{roleLabel(user)}</div>
         </div>
       </div>
 

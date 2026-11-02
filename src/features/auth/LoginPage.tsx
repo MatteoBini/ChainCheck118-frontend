@@ -70,7 +70,7 @@ export function LoginPage() {
   return (
     <main className="auth">
       <section className="card auth-card" aria-labelledby="login-title">
-        <div className="sb-brand" style={{ paddingLeft: 0 }}>
+        <div className="sb-brand auth-brand">
           <span className="sb-brand-mark" aria-hidden="true">
             <LinkIcon size={16} strokeWidth={2} />
           </span>
@@ -82,7 +82,7 @@ export function LoginPage() {
           <h1 id="login-title" className="page-title">
             Accesso
           </h1>
-          <p className="empty-text" style={{ marginTop: 4 }}>
+          <p className="empty-text auth-lead">
             Inserisci le credenziali fornite dall'amministratore.
           </p>
         </div>
