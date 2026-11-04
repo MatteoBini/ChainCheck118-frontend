@@ -22,6 +22,7 @@ export class ApiError extends Error {
     readonly status: number,
     readonly code: string,
     message: string,
+    readonly details?: unknown,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -30,7 +31,7 @@ export class ApiError extends Error {
 
 /** Formato degli errori del backend: { error: { code, message, details? } }. */
 interface ErrorBody {
-  error?: { code?: string; message?: string };
+  error?: { code?: string; message?: string; details?: unknown };
 }
 
 type UnauthorizedHandler = () => void;
@@ -79,6 +80,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
       response.status,
       payload?.error?.code ?? 'HTTP_ERROR',
       payload?.error?.message ?? `Richiesta ${method} ${path} non riuscita (${response.status})`,
+      payload?.error?.details,
     );
   }
   if (response.status === 204) return undefined as T;

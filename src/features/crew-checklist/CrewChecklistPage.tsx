@@ -1,13 +1,31 @@
-import { EmptyState } from '@/components/feedback';
-import { Page } from '@/components/layout';
+import { useState } from 'react';
+import type { CertifiedChecklist, VehicleChecklist } from '@/types';
+import { CertifiedStep } from './CertifiedStep';
+import { ChecklistStep } from './ChecklistStep';
+import { VehicleStep } from './VehicleStep';
 
-/** Segnaposto: la compilazione della checklist arriva nella fase 2. */
+type Step =
+  | { kind: 'vehicle' }
+  | { kind: 'fill'; checklist: VehicleChecklist }
+  | { kind: 'done'; result: CertifiedChecklist };
+
+/** Compilazione della checklist: scelta del mezzo → esiti delle voci → certificazione. */
 export function CrewChecklistPage() {
-  return (
-    <Page title="Checklist del mezzo">
-      <EmptyState title="Checklist in preparazione">
-        Qui l'equipaggio compilerà e firmerà la checklist del mezzo.
-      </EmptyState>
-    </Page>
-  );
+  const [step, setStep] = useState<Step>({ kind: 'vehicle' });
+  const restart = () => setStep({ kind: 'vehicle' });
+
+  switch (step.kind) {
+    case 'vehicle':
+      return <VehicleStep onLoaded={(checklist) => setStep({ kind: 'fill', checklist })} />;
+    case 'fill':
+      return (
+        <ChecklistStep
+          checklist={step.checklist}
+          onCertified={(result) => setStep({ kind: 'done', result })}
+          onChangeVehicle={restart}
+        />
+      );
+    case 'done':
+      return <CertifiedStep result={step.result} onNew={restart} />;
+  }
 }
