@@ -6,6 +6,7 @@ import { EmptyState, LoadingScreen } from '@/components/feedback';
 import { Page } from '@/components/layout';
 import { useCurrentUser } from '@/features/auth';
 import { formatDateTime } from '@/lib';
+import { AuditLog } from './AuditLog';
 import type { InspectionVerdict, RecentRecord, Role } from '@/types';
 
 type State =
@@ -41,8 +42,14 @@ function describe(record: RecentRecord): string {
   return record.inspection ? `${base} · ispezionata` : base;
 }
 
-/** Storico delle checklist certificate / ispezioni dell'utente. */
+/** Storico: per la centrale è l'audit di tutti i mezzi, per gli altri ruoli le proprie attività. */
 export function HistoryPage() {
+  const user = useCurrentUser();
+  return user.role === 'OPERATORE' ? <AuditLog /> : <PersonalHistory />;
+}
+
+/** Storico delle checklist certificate / ispezioni dell'utente. */
+function PersonalHistory() {
   const user = useCurrentUser();
   const [params] = useSearchParams();
   const selectedId = params.get('voce');
@@ -78,7 +85,7 @@ export function HistoryPage() {
     document.getElementById(`hist-${selectedId}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }, [state, selectedId]);
 
-  const title = user.role === 'OPERATORE' ? 'Storico e audit' : 'Storico';
+  const title = 'Storico';
 
   let content;
   if (state.status === 'loading' || (state.status === 'ready' && state.role !== user.role)) {

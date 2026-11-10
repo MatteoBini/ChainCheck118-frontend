@@ -8,3 +8,4 @@ export type {
 } from './checklist';
 export type { Credentials, Role, User } from './user';
 export type { InspectionVerdict, RecentEntry, RecentRecord } from './recent';
+export type { AuditPage, AuditRecord, UserRef, VehicleOverview } from './dispatch';
