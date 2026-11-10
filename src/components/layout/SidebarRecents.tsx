@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecents } from '@/app/api';
+import { getRecents, onRecentsChanged } from '@/app/api';
 import type { RecentEntry, Role } from '@/types';
 import { PATHS } from './navConfig';
 
@@ -17,16 +17,26 @@ export function SidebarRecents({ title, role }: SidebarRecentsProps) {
   const entries = loaded?.role === role ? loaded.entries : [];
 
   useEffect(() => {
-    let active = true;
-    getRecents(role)
-      .then((list) => {
-        if (active) setLoaded({ role, entries: list });
-      })
-      .catch(() => {
-        /* la lista è accessoria: in caso di errore resta nascosta */
-      });
+    let controller: AbortController | null = null;
+
+    function load() {
+      controller?.abort();
+      const current = new AbortController();
+      controller = current;
+      getRecents(role, current.signal)
+        .then((list) => {
+          if (!current.signal.aborted) setLoaded({ role, entries: list });
+        })
+        .catch(() => {
+          /* la lista è accessoria: in caso di errore resta quella già mostrata */
+        });
+    }
+
+    load();
+    const unsubscribe = onRecentsChanged(load);
     return () => {
-      active = false;
+      unsubscribe();
+      controller?.abort();
     };
   }, [role]);
 
@@ -41,7 +51,7 @@ export function SidebarRecents({ title, role }: SidebarRecentsProps) {
       <ul className="sb-list" aria-labelledby={headingId}>
         {entries.map((entry) => (
           <li key={entry.id}>
-            <Link to={PATHS.history} className="nav rec">
+            <Link to={`${PATHS.history}?voce=${encodeURIComponent(entry.id)}`} className="nav rec">
               <span className="rec-title">{entry.title}</span>
               <span className="rec-sub">{entry.subtitle}</span>
             </Link>

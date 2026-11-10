@@ -10,3 +10,10 @@ export function formatDateTime(iso: string): string {
 export function formatTime(iso: string): string {
   return TIME.format(new Date(iso));
 }
+
+const SHORT_DATE = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'short' });
+
+/** Giorno e mese abbreviato, es. "4 nov". */
+export function formatShortDate(iso: string): string {
+  return SHORT_DATE.format(new Date(iso));
+}

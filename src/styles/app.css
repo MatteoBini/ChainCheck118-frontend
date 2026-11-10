@@ -898,3 +898,14 @@ a {
   font-size: 13px;
   overflow-wrap: anywhere;
 }
+
+/* ---------- Storico ---------- */
+.hist-desc {
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+
+.hist-row.is-selected {
+  background: var(--acc-soft);
+  box-shadow: inset 3px 0 0 var(--acc);
+}

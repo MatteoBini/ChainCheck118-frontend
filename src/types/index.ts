@@ -7,4 +7,4 @@ export type {
   VehicleChecklist,
 } from './checklist';
 export type { Credentials, Role, User } from './user';
-export type { RecentEntry } from './recent';
+export type { InspectionVerdict, RecentEntry, RecentRecord } from './recent';
