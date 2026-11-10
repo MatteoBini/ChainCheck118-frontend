@@ -3,8 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
-  // Il backend espone le rotte senza prefisso (/auth/login, /health) e non abilita CORS:
-  // in sviluppo le chiamate a /api passano dal proxy di Vite, come fa nginx in produzione.
+  // Il backend non ha prefisso /api né CORS: il proxy fa come nginx in produzione.
   const proxy = {
     '/api': {
       target: env.API_PROXY_TARGET || 'http://localhost:3000',

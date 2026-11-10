@@ -10,16 +10,12 @@ type Step =
   | { kind: 'fill'; checklist: VehicleChecklist }
   | { kind: 'done'; result: CertifiedChecklist };
 
-/**
- * Ogni navigazione verso la pagina (es. "Nuova checklist" nella sidebar) ha una
- * location.key diversa: usarla come key fa ripartire il flusso da capo.
- */
+/** location.key cambia a ogni navigazione: il flusso riparte da capo. */
 export function CrewChecklistPage() {
   const location = useLocation();
   return <CrewChecklistFlow key={location.key} />;
 }
 
-/** Compilazione della checklist: scelta del mezzo → esiti delle voci → certificazione. */
 function CrewChecklistFlow() {
   const [step, setStep] = useState<Step>({ kind: 'vehicle' });
   const restart = () => setStep({ kind: 'vehicle' });

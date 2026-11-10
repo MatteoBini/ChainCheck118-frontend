@@ -62,12 +62,10 @@ function AuditRow({ record }: { record: AuditRecord }) {
   );
 }
 
-/** Storico e audit della centrale: tutte le checklist di tutti i mezzi, dalla più recente. */
 export function AuditLog() {
   const [state, setState] = useState<State>({ status: 'loading' });
   const controllerRef = useRef<AbortController | null>(null);
 
-  /** Ricarica dalla prima pagina (all'apertura e quando arriva una nuova checklist). */
   const reload = useCallback(() => {
     controllerRef.current?.abort();
     const current = new AbortController();
@@ -128,7 +126,6 @@ export function AuditLog() {
       </EmptyState>
     );
   } else {
-    // raggruppa per giorno, mantenendo l'ordine dal più recente
     const groups: { key: string; label: string; records: AuditRecord[] }[] = [];
     for (const record of state.records) {
       const key = dayKey(record.certifiedAt);

@@ -12,7 +12,6 @@ const ago = (days: number, time: string) => {
 const CREW: UserRef = { id: 2, username: 'soccorritore', fullName: 'Giulia Bianchi' };
 const INSPECTOR: UserRef = { id: 3, username: 'ispettore', fullName: 'Luca Verdi' };
 
-/** Dati di prova nello stesso formato di GET /checklists (dal più recente). */
 const MOCK_AUDIT: readonly AuditRecord[] = [
   { id: 6, plate: 'AA111BB', certifiedAt: ago(0, '08:04'), by: CREW, inspection: null },
   { id: 5, plate: 'CC222DD', certifiedAt: ago(1, '07:52'), by: CREW, inspection: { verdict: 'CONFORME', inspectedAt: ago(1, '10:30'), by: INSPECTOR } },

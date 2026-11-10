@@ -1,7 +1,7 @@
 import type { Credentials, User } from '@/types';
 import { ApiError, apiRequest, getToken, setToken, USE_MOCKS } from '../client';
 
-/** Import dinamico: i mock finiscono in un chunk separato, mai scaricato con il backend vero. */
+/** Import dinamico: i mock restano fuori dal bundle principale. */
 const loadMocks = () => import('../mock');
 
 interface LoginResponse {
@@ -13,7 +13,6 @@ interface MeResponse {
   user: User;
 }
 
-/** Utente della sessione corrente, o null se non autenticato. */
 export async function getMe(): Promise<User | null> {
   if (USE_MOCKS) return (await loadMocks()).mockGetMe();
   if (!getToken()) return null;
@@ -21,7 +20,7 @@ export async function getMe(): Promise<User | null> {
     const { user } = await apiRequest<MeResponse>('/auth/me');
     return user;
   } catch (error) {
-    // Il token è già stato scartato da apiRequest.
+    // apiRequest ha già scartato il token.
     if (error instanceof ApiError && error.status === 401) return null;
     throw error;
   }
@@ -37,7 +36,7 @@ export async function signIn(credentials: Credentials): Promise<User> {
   return user;
 }
 
-/** Il JWT non ha stato sul server: uscire significa scartare il token. */
+/** JWT stateless: basta scartare il token. */
 export async function signOut(): Promise<void> {
   if (USE_MOCKS) return (await loadMocks()).mockSignOut();
   setToken(null);

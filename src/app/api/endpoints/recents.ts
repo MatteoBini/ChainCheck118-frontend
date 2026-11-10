@@ -9,7 +9,6 @@ export const VERDICT_LABEL: Readonly<Record<InspectionVerdict, string>> = {
   NON_CONFORME: 'Non conforme',
 };
 
-/** Trasforma la voce del backend nelle due righe mostrate nella sidebar. */
 function toEntry(record: RecentRecord): RecentEntry {
   const day = formatShortDate(record.at);
   if (record.kind === 'INSPECTION') {
@@ -33,17 +32,15 @@ async function fetchRecords(role: Role, limit: number, signal?: AbortSignal): Pr
   return items;
 }
 
-/** Ultime attività dell'utente (checklist certificate o ispezioni, in base al ruolo). */
 export async function getRecents(role: Role, signal?: AbortSignal): Promise<readonly RecentEntry[]> {
   return (await fetchRecords(role, RECENTS_LIMIT, signal)).map(toEntry);
 }
 
-/** Storico completo (fino a HISTORY_LIMIT voci) per la pagina Storico. */
 export function getHistory(role: Role, signal?: AbortSignal): Promise<readonly RecentRecord[]> {
   return fetchRecords(role, HISTORY_LIMIT, signal);
 }
 
-/* Notifica alla sidebar che la lista è cambiata (nuova checklist, nuova ispezione, …). */
+/** Emesso dopo l'invio di una checklist, per aggiornare le liste aperte. */
 const RECENTS_CHANGED = 'cc118:recents-changed';
 const recentsEvents = new EventTarget();
 
@@ -51,7 +48,6 @@ export function notifyRecentsChanged(): void {
   recentsEvents.dispatchEvent(new Event(RECENTS_CHANGED));
 }
 
-/** Registra un listener e restituisce la funzione per rimuoverlo. */
 export function onRecentsChanged(listener: () => void): () => void {
   recentsEvents.addEventListener(RECENTS_CHANGED, listener);
   return () => recentsEvents.removeEventListener(RECENTS_CHANGED, listener);

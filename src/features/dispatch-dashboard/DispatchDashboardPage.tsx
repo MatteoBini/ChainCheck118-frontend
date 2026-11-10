@@ -6,7 +6,6 @@ import { Page } from '@/components/layout';
 import { daysAgo, formatDateTime, formatRelative, formatTime } from '@/lib';
 import type { VehicleOverview } from '@/types';
 
-/** Ogni quanto la panoramica si aggiorna da sola. */
 const REFRESH_MS = 60_000;
 
 type State =
@@ -81,7 +80,6 @@ function Stat({ label, value, tone }: { label: string; value: number; tone?: 'ok
   );
 }
 
-/** Panoramica della centrale: per ogni mezzo, quando è stata fatta l'ultima checklist. */
 export function DispatchDashboardPage() {
   const [state, setState] = useState<State>({ status: 'loading' });
   const controllerRef = useRef<AbortController | null>(null);
@@ -96,7 +94,6 @@ export function DispatchDashboardPage() {
       })
       .catch(() => {
         if (current.signal.aborted) return;
-        // se avevamo già dei dati li teniamo, segnalando che non sono aggiornati
         setState((prev) => (prev.status === 'ready' ? { ...prev, stale: true } : { status: 'error' }));
       });
   }, []);

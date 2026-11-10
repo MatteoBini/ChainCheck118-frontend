@@ -2,9 +2,7 @@ import type { ReactNode } from 'react';
 
 interface PageProps {
   title: string;
-  /** Pulsanti a destra nell'intestazione. */
   actions?: ReactNode;
-  /** Barra d'azione fissa in fondo (es. "Firma e certifica"). */
   footer?: ReactNode;
   width?: 'narrow' | 'default' | 'wide';
   children: ReactNode;
@@ -16,7 +14,6 @@ const WIDTH_CLASS: Record<NonNullable<PageProps['width']>, string> = {
   wide: 'page-inner is-wide',
 };
 
-/** Struttura standard di una schermata: intestazione, area scorrevole, footer opzionale. */
 export function Page({ title, actions, footer, width = 'default', children }: PageProps) {
   return (
     <>

@@ -13,7 +13,7 @@ export function SidebarRecents({ title, role }: SidebarRecentsProps) {
   const [loaded, setLoaded] = useState<{ role: Role; entries: readonly RecentEntry[] } | null>(
     null,
   );
-  // i dati caricati per un ruolo precedente non vanno mostrati
+  // Scarta i dati di un ruolo precedente.
   const entries = loaded?.role === role ? loaded.entries : [];
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function SidebarRecents({ title, role }: SidebarRecentsProps) {
           if (!current.signal.aborted) setLoaded({ role, entries: list });
         })
         .catch(() => {
-          /* la lista è accessoria: in caso di errore resta quella già mostrata */
+          /* errore ignorato: resta la lista già mostrata */
         });
     }
 

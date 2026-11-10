@@ -5,7 +5,6 @@ import { homePathFor, Page, PATHS } from '@/components/layout';
 import { initials, roleLabel } from '@/lib';
 import { useAuth, useCurrentUser } from './useAuth';
 
-/** Dati in sola lettura: il backend non espone la modifica del profilo. */
 export function ProfilePage() {
   const user = useCurrentUser();
   const { signOut } = useAuth();
@@ -14,7 +13,7 @@ export function ProfilePage() {
   const ids = useId();
 
   function handleClose() {
-    // Senza cronologia interna (pagina aperta direttamente) si torna alla home del ruolo.
+    // Pagina aperta direttamente: nessuna cronologia a cui tornare.
     if (location.key === 'default') navigate(homePathFor(user.role), { replace: true });
     else navigate(-1);
   }

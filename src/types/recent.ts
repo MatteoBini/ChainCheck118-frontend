@@ -1,7 +1,5 @@
-/** Esito di un'ispezione. */
 export type InspectionVerdict = 'CONFORME' | 'NON_CONFORME';
 
-/** Voce restituita da GET /recents (dipende dal ruolo dell'utente). */
 export type RecentRecord =
   | {
       readonly id: string;
@@ -18,7 +16,6 @@ export type RecentRecord =
       readonly verdict: InspectionVerdict;
     };
 
-/** Voce della lista "Recenti" nella barra laterale. */
 export interface RecentEntry {
   id: string;
   title: string;

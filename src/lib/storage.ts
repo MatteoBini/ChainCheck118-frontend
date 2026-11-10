@@ -1,7 +1,4 @@
-/**
- * Accesso a localStorage tollerante agli errori (navigazione privata,
- * storage bloccato): in caso di problemi si usa il valore di ripiego.
- */
+/** localStorage che non lancia eccezioni (es. storage bloccato). */
 export function readStored(key: string): string | null {
   try {
     return window.localStorage.getItem(key);
@@ -15,6 +12,6 @@ export function writeStored(key: string, value: string | null): void {
     if (value === null) window.localStorage.removeItem(key);
     else window.localStorage.setItem(key, value);
   } catch {
-    /* storage non disponibile: la preferenza vale solo per la sessione */
+    /* storage non disponibile */
   }
 }

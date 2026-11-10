@@ -1,14 +1,12 @@
 import { readStored, writeStored } from '@/lib';
 
-/** Il backend è raggiunto sempre tramite proxy (Vite in sviluppo, nginx in produzione) che rimuove /api. */
 export const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api';
 
-/** Se true gli endpoint rispondono con i dati di src/app/api/mock. */
+/** Mock solo per auth, recenti e centrale: la checklist usa sempre il backend. */
 export const USE_MOCKS = import.meta.env.VITE_USE_MOCKS === 'true';
 
 const TOKEN_KEY = 'cc118.token';
 
-/** JWT restituito da POST /auth/login, inviato come Bearer a ogni richiesta. */
 export function getToken(): string | null {
   return readStored(TOKEN_KEY);
 }
@@ -29,7 +27,6 @@ export class ApiError extends Error {
   }
 }
 
-/** Formato degli errori del backend: { error: { code, message, details? } }. */
 interface ErrorBody {
   error?: { code?: string; message?: string; details?: unknown };
 }
@@ -38,10 +35,6 @@ type UnauthorizedHandler = () => void;
 
 let onUnauthorized: UnauthorizedHandler | null = null;
 
-/**
- * Registra il callback invocato quando il backend rifiuta il token
- * (scaduto o non valido): tipicamente chiude la sessione lato client.
- */
 export function setUnauthorizedHandler(handler: UnauthorizedHandler | null): void {
   onUnauthorized = handler;
 }
@@ -70,7 +63,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const response = await fetch(`${API_BASE_URL}${path}`, init);
   if (!response.ok) {
-    // Solo se avevamo inviato un token: un 401 senza token (es. login errato) non è una sessione scaduta.
+    // Un 401 senza token (es. login errato) non è una sessione scaduta.
     if (response.status === 401 && token) {
       setToken(null);
       onUnauthorized?.();

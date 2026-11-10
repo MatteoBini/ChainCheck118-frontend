@@ -40,7 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
   }, []);
 
-  // Un 401 su qualsiasi chiamata autenticata chiude la sessione: RequireAuth riporta al login.
+  // Token rifiutato dal backend: chiude la sessione.
   useEffect(() => {
     api.setUnauthorizedHandler(() => void signOut());
     return () => api.setUnauthorizedHandler(null);

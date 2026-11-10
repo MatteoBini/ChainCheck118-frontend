@@ -6,7 +6,6 @@ interface ChecklistItemRowProps {
   index: number;
   item: ChecklistItem;
   value: ItemOutcome | undefined;
-  /** Voce rifiutata dal backend perché non presente. */
   rejected: boolean;
   disabled: boolean;
   onChange: (outcome: ItemOutcome) => void;

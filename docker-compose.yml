@@ -18,7 +18,6 @@ services:
     image: chaincheck118-frontend:local
     restart: unless-stopped
     environment:
-      # Backend avviato sull'host (es. npm run dev nel repo backend), raggiunto via nginx.
       BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:3000}
     ports:
       - "${FRONTEND_PORT:-8080}:80"
@@ -31,11 +30,10 @@ services:
     environment:
       VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
       VITE_API_URL: ${VITE_API_URL:-/api}
-      # Il proxy di Vite gira nel container: il backend sull'host è host.docker.internal.
       API_PROXY_TARGET: ${BACKEND_URL:-http://host.docker.internal:3000}
     volumes:
       - .:/app
-      # node_modules separati da quelli dell'host (binari compilati per Linux).
+      # node_modules separati dall'host (binari Linux).
       - dev-modules:/app/node_modules
     ports:
       - "5173:5173"

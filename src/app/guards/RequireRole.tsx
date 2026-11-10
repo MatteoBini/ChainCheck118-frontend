@@ -7,10 +7,7 @@ interface RequireRoleProps {
   roles: readonly Role[];
 }
 
-/**
- * Filtro di navigazione lato client: il controllo d'accesso vero
- * resta sul backend, che verifica il ruolo a ogni richiesta.
- */
+/** Solo filtro di navigazione: i permessi li verifica il backend. */
 export function RequireRole({ roles }: RequireRoleProps) {
   const user = useCurrentUser();
   if (!roles.includes(user.role)) return <Navigate to={homePathFor(user.role)} replace />;

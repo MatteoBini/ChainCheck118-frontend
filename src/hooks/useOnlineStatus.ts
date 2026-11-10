@@ -9,7 +9,6 @@ function subscribe(onChange: () => void): () => void {
   };
 }
 
-/** true quando il browser risulta connesso alla rete. */
 export function useOnlineStatus(): boolean {
   return useSyncExternalStore(
     subscribe,

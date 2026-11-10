@@ -8,7 +8,7 @@ export function useAuth(): AuthContextValue {
   return ctx;
 }
 
-/** Utente autenticato: da usare solo sotto <RequireAuth>. */
+/** Da usare solo sotto <RequireAuth>. */
 export function useCurrentUser(): User {
   const { user } = useAuth();
   if (!user) throw new Error('useCurrentUser richiede un utente autenticato');

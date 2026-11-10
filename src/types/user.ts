@@ -1,7 +1,5 @@
-/** Ruolo applicativo (enum Role del backend): assegnato dal server, mai modificabile dal client. */
 export type Role = 'OPERATORE' | 'SOCCORRITORE' | 'ISPETTORE';
 
-/** Utente come restituito da POST /auth/login e GET /auth/me. */
 export interface User {
   readonly id: number;
   readonly username: string;

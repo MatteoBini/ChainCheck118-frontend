@@ -42,13 +42,11 @@ function describe(record: RecentRecord): string {
   return record.inspection ? `${base} · ispezionata` : base;
 }
 
-/** Storico: per la centrale è l'audit di tutti i mezzi, per gli altri ruoli le proprie attività. */
 export function HistoryPage() {
   const user = useCurrentUser();
   return user.role === 'OPERATORE' ? <AuditLog /> : <PersonalHistory />;
 }
 
-/** Storico delle checklist certificate / ispezioni dell'utente. */
 function PersonalHistory() {
   const user = useCurrentUser();
   const [params] = useSearchParams();
@@ -79,7 +77,6 @@ function PersonalHistory() {
     };
   }, [user.role]);
 
-  // porta in vista la voce scelta dai "Recenti"
   useEffect(() => {
     if (state.status !== 'ready' || !selectedId) return;
     document.getElementById(`hist-${selectedId}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });

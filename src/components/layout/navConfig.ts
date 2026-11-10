@@ -23,10 +23,9 @@ export interface NavItem {
 }
 
 export interface RoleNav {
-  /** Azione principale in cima alla sidebar ("Nuova checklist", …). */
   primary?: NavItem;
   items: readonly NavItem[];
-  /** Titolo della lista sotto il menu; assente = nessuna lista. */
+  /** Assente = nessuna lista recenti. */
   recentsTitle?: string;
 }
 

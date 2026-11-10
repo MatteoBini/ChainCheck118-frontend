@@ -11,7 +11,7 @@ interface ChecklistStepProps {
   onChangeVehicle: () => void;
 }
 
-/** Voci indicate in error.details.items dal backend (CHECKLIST_NOT_COMPLIANT). */
+/** Voci in error.details.items di CHECKLIST_NOT_COMPLIANT. */
 function rejectedItemIds(details: unknown): ReadonlySet<number> {
   if (typeof details !== 'object' || details === null || !('items' in details) || !Array.isArray(details.items)) {
     return new Set();
@@ -25,7 +25,6 @@ function rejectedItemIds(details: unknown): ReadonlySet<number> {
   );
 }
 
-/** Secondo passo: un esito per ogni voce, poi l'invio al backend per la certificazione. */
 export function ChecklistStep({ checklist, onCertified, onChangeVehicle }: ChecklistStepProps) {
   const formId = useId();
   const { vehicle, items, today } = checklist;

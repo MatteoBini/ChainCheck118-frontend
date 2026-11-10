@@ -1,5 +1,4 @@
 :root {
-  /* Superfici e testo */
   --bg: #F6F7F8;
   --side: #ECEEF0;
   --surface: #FFFFFF;
@@ -9,12 +8,10 @@
   --line: #DADFE3;
   --line2: #E8EBEE;
 
-  /* Accento */
   --acc: #1D4E6B;
   --acc-h: #163D54;
   --acc-soft: #E2EDF3;
 
-  /* Stati (sempre accompagnati da testo e icona) */
   --ok: #1E6B3A;
   --ok-soft: #E3F1E8;
   --warn: #85500A;
@@ -22,11 +19,9 @@
   --bad: #A12B2B;
   --bad-soft: #FAE3E1;
 
-  /* Tipografia */
   --font-ui: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Forme e misure */
   --r-ctl: 8px;
   --r-card: 10px;
   --tap: 44px;

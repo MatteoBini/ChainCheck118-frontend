@@ -4,7 +4,7 @@ import { delay } from './delay';
 
 const SESSION_KEY = 'cc118.mock.session';
 
-/** Stessi utenti e password creati da prisma/seed.ts nel backend. */
+/** Allineati a prisma/seed.ts del backend. */
 export const MOCK_PASSWORD = 'password123';
 
 export const MOCK_USERS: readonly User[] = [

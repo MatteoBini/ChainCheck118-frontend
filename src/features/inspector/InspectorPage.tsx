@@ -1,7 +1,6 @@
 import { EmptyState } from '@/components/feedback';
 import { Page } from '@/components/layout';
 
-/** Segnaposto: il flusso di ispezione arriva nella fase 3. */
 export function InspectorPage() {
   return (
     <Page title="Nuova ispezione">

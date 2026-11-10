@@ -9,7 +9,6 @@ const day = (offset: number, time: string) => {
   return date.toISOString();
 };
 
-/** Dati di prova nello stesso formato di GET /recents. */
 export const MOCK_RECENTS: Readonly<Record<Role, readonly RecentRecord[]>> = {
   SOCCORRITORE: [
     { id: 'checklist-3', kind: 'CHECKLIST', plate: 'BS-MSB-11', at: day(0, '08:04'), inspection: null },

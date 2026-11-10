@@ -7,7 +7,6 @@ interface VehicleStepProps {
   onLoaded: (checklist: VehicleChecklist) => void;
 }
 
-/** Primo passo: il soccorritore indica il mezzo e carica le voci della checklist. */
 export function VehicleStep({ onLoaded }: VehicleStepProps) {
   const ids = useId();
   const [code, setCode] = useState('');
@@ -22,7 +21,7 @@ export function VehicleStep({ onLoaded }: VehicleStepProps) {
       onLoaded(await getVehicleChecklist(plate));
     } catch (err) {
       if (err instanceof ApiError && err.status === 404) setError(`Nessun mezzo con targa ${plate}.`);
-      // Gli altri errori del backend (es. 401) hanno già un messaggio leggibile: mostrarlo aiuta a capire il problema.
+      // I 4xx del backend hanno già un messaggio leggibile.
       else if (err instanceof ApiError && err.status < 500) setError(err.message);
       else setError('Caricamento non riuscito. Controlla la connessione e riprova.');
       setPending(false);

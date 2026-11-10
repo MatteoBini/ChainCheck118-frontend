@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# ---------- Build ----------
 FROM node:22-alpine AS build
 WORKDIR /app
 
@@ -9,7 +8,7 @@ RUN npm ci --no-audit --no-fund
 
 COPY . .
 
-# Le variabili VITE_* vengono incorporate nel bundle al momento della build.
+# Le VITE_* sono incorporate nel bundle in fase di build.
 ARG VITE_API_URL=/api
 ARG VITE_USE_MOCKS=false
 ENV VITE_API_URL=$VITE_API_URL \
@@ -17,10 +16,9 @@ ENV VITE_API_URL=$VITE_API_URL \
 
 RUN npm run build
 
-# ---------- Runtime ----------
 FROM nginx:1.27-alpine AS runtime
 
-# Indirizzo del backend a cui nginx inoltra /api e /ws (sostituito all'avvio).
+# Sostituito in nginx.conf all'avvio del container.
 ENV BACKEND_URL=http://backend:3000
 
 COPY nginx.conf /etc/nginx/templates/default.conf.template

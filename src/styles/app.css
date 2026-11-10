@@ -180,11 +180,11 @@ a {
   border-top: 1px solid var(--line);
 }
 
-/* Etichette: nascoste solo visivamente nel rail, così restano il nome accessibile dei link */
 .sb.is-collapsed {
   width: var(--sb-rail);
 }
 
+/* Nascoste solo visivamente: restano il nome accessibile dei link */
 .sb.is-collapsed .lbl {
   position: absolute;
   width: 1px;
@@ -248,7 +248,7 @@ a {
   background: var(--hover);
 }
 
-/* Voce attiva: tinta d'accento, senza bordo, per non confondersi con il tasto .newbtn */
+/* Senza bordo, per distinguerla da .newbtn */
 .nav.is-on {
   background: var(--acc-soft);
   color: var(--acc);
@@ -813,8 +813,7 @@ a {
   gap: 6px;
 }
 
-/* relative: il radio nascosto (.vh, absolute) resta dentro l'area che scorre;
-   senza, viene posizionato rispetto a <body>, che diventa scrollabile e al focus scorre via la pagina */
+/* Contiene il radio .vh (absolute): altrimenti al focus scorre via la pagina */
 .ck-opt {
   position: relative;
   display: inline-flex;

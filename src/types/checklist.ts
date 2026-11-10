@@ -1,4 +1,3 @@
-/** Esito di una voce della checklist (enum ItemOutcome del backend). */
 export type ItemOutcome = 'PRESENTE' | 'MANCANTE' | 'SCADUTO' | 'NON_FUNZIONANTE';
 
 export interface ChecklistItem {
@@ -11,7 +10,6 @@ export interface ItemResult {
   outcome: ItemOutcome;
 }
 
-/** Stato della checklist di oggi per il mezzo. */
 export type TodayStatus =
   | { readonly status: 'NONE' }
   | {
@@ -21,14 +19,12 @@ export type TodayStatus =
       readonly inspected: boolean;
     };
 
-/** Risposta di GET /vehicles/:plate. */
 export interface VehicleChecklist {
   readonly vehicle: { readonly id: number; readonly plate: string };
   readonly items: readonly ChecklistItem[];
   readonly today: TodayStatus;
 }
 
-/** Risposta di POST /checklists. */
 export interface CertifiedChecklist {
   readonly submissionId: number;
   readonly plate: string;

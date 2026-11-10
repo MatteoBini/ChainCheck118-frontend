@@ -26,7 +26,7 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [demo, setDemo] = useState<DemoAccounts | null>(null);
 
-  /** Gli utenti di prova si caricano solo con i mock attivi, così restano fuori dal bundle principale. */
+  // Import dinamico: gli utenti di prova restano fuori dal bundle principale.
   useEffect(() => {
     if (!USE_MOCKS) return;
     let active = true;
@@ -40,7 +40,7 @@ export function LoginPage() {
 
   const from = (location.state as LocationState | null)?.from;
 
-  // Unico punto di redirect: signIn aggiorna user e il re-render porta qui.
+  // Unico punto di redirect, anche dopo signIn.
   if (user) return <Navigate to={from ?? homePathFor(user.role)} replace />;
 
   const valid = username.trim().length > 0 && password.length > 0;

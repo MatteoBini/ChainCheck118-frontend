@@ -8,7 +8,6 @@ interface CertifiedStepProps {
   onNew: () => void;
 }
 
-/** Ultimo passo: estremi della certificazione restituiti dal backend. */
 export function CertifiedStep({ result, onNew }: CertifiedStepProps) {
   return (
     <Page
