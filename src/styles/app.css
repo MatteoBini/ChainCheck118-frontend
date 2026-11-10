@@ -248,10 +248,11 @@ a {
   background: var(--hover);
 }
 
+/* Voce attiva: tinta d'accento, senza bordo, per non confondersi con il tasto .newbtn */
 .nav.is-on {
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: 0 0 0 1px var(--line);
+  background: var(--acc-soft);
+  color: var(--acc);
+  font-weight: 600;
 }
 
 .nav svg {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import type { CertifiedChecklist, VehicleChecklist } from '@/types';
 import { CertifiedStep } from './CertifiedStep';
 import { ChecklistStep } from './ChecklistStep';
@@ -9,8 +10,17 @@ type Step =
   | { kind: 'fill'; checklist: VehicleChecklist }
   | { kind: 'done'; result: CertifiedChecklist };
 
-/** Compilazione della checklist: scelta del mezzo → esiti delle voci → certificazione. */
+/**
+ * Ogni navigazione verso la pagina (es. "Nuova checklist" nella sidebar) ha una
+ * location.key diversa: usarla come key fa ripartire il flusso da capo.
+ */
 export function CrewChecklistPage() {
+  const location = useLocation();
+  return <CrewChecklistFlow key={location.key} />;
+}
+
+/** Compilazione della checklist: scelta del mezzo → esiti delle voci → certificazione. */
+function CrewChecklistFlow() {
   const [step, setStep] = useState<Step>({ kind: 'vehicle' });
   const restart = () => setStep({ kind: 'vehicle' });
 

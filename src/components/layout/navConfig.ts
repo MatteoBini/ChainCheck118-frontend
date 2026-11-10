@@ -1,10 +1,8 @@
 import {
-  ClipboardCheck,
   Clock,
   FileText,
   LayoutDashboard,
   Plus,
-  QrCode,
   type LucideIcon,
 } from 'lucide-react';
 import type { Role } from '@/types';
@@ -36,7 +34,6 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
   SOCCORRITORE: {
     primary: { to: PATHS.crewChecklist, label: 'Nuova checklist', icon: Plus },
     items: [
-      { to: PATHS.crewChecklist, label: 'Checklist', icon: ClipboardCheck },
       { to: PATHS.history, label: 'Storico', icon: Clock },
     ],
     recentsTitle: 'Recenti',
@@ -44,7 +41,6 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
   ISPETTORE: {
     primary: { to: PATHS.inspection, label: 'Nuova ispezione', icon: Plus },
     items: [
-      { to: PATHS.inspection, label: 'Ispezioni', icon: QrCode },
       { to: PATHS.history, label: 'Storico', icon: Clock },
     ],
     recentsTitle: 'Recenti',
