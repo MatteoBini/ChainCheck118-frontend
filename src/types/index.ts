@@ -9,3 +9,9 @@ export type {
 export type { Credentials, Role, User } from './user';
 export type { InspectionVerdict, RecentEntry, RecentRecord } from './recent';
 export type { AuditPage, AuditRecord, UserRef, VehicleOverview } from './dispatch';
+export type {
+  InspectionDiscrepancy,
+  InspectionReportEntry,
+  InspectionResult,
+  PendingInspection,
+} from './inspection';

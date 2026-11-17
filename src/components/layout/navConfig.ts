@@ -1,4 +1,5 @@
 import {
+  AlertTriangle,
   Clock,
   FileText,
   LayoutDashboard,
@@ -14,6 +15,7 @@ export const PATHS = {
   crewChecklist: '/checklist',
   inspection: '/ispezione',
   dispatch: '/centrale',
+  reports: '/segnalazioni',
 } as const;
 
 export interface NavItem {
@@ -34,11 +36,12 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
     primary: { to: PATHS.crewChecklist, label: 'Nuova checklist', icon: Plus },
     items: [
       { to: PATHS.history, label: 'Storico', icon: Clock },
+      { to: PATHS.reports, label: 'Segnalazioni', icon: AlertTriangle },
     ],
     recentsTitle: 'Recenti',
   },
   ISPETTORE: {
-    primary: { to: PATHS.inspection, label: 'Nuova ispezione', icon: Plus },
+    primary: { to: PATHS.inspection, label: 'Ispezioni', icon: Plus },
     items: [
       { to: PATHS.history, label: 'Storico', icon: Clock },
     ],
