@@ -5,12 +5,15 @@ import { LoginPage, ProfilePage } from '@/features/auth';
 import { CrewChecklistPage } from '@/features/crew-checklist';
 import { DispatchDashboardPage } from '@/features/dispatch-dashboard';
 import { InspectorPage } from '@/features/inspector';
+import { AboutPage, LandingPage } from '@/features/landing';
 import { MyReportsPage } from '@/features/reports';
 import { RequireAuth, RequireRole } from './guards';
 import { HomeRedirect } from './HomeRedirect';
 import { ShellLayout } from './ShellLayout';
 
 export const router = createBrowserRouter([
+  { index: true, element: <LandingPage /> },
+  { path: PATHS.about, element: <AboutPage /> },
   { path: PATHS.login, element: <LoginPage /> },
   {
     element: <RequireAuth />,
@@ -18,7 +21,6 @@ export const router = createBrowserRouter([
       {
         element: <ShellLayout />,
         children: [
-          { index: true, element: <HomeRedirect /> },
           { path: PATHS.profile, element: <ProfilePage /> },
           { path: PATHS.history, element: <HistoryPage /> },
           {

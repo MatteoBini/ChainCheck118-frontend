@@ -1,6 +1,6 @@
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import { LinkIcon } from 'lucide-react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ApiError, USE_MOCKS } from '@/app/api';
 import { homePathFor } from '@/components/layout';
 import { roleLabel } from '@/lib';
@@ -69,14 +69,14 @@ export function LoginPage() {
   return (
     <main className="auth">
       <section className="card auth-card" aria-labelledby="login-title">
-        <div className="sb-brand auth-brand">
+        <Link to="/" className="sb-brand auth-brand" aria-label="ChainCheck118 – torna alla home">
           <span className="sb-brand-mark" aria-hidden="true">
             <LinkIcon size={16} strokeWidth={2} />
           </span>
           <span>
             ChainCheck<span className="sb-brand-sub">118</span>
           </span>
-        </div>
+        </Link>
         <div>
           <h1 id="login-title" className="page-title">
             Accesso
