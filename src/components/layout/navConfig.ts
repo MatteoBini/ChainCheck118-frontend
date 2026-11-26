@@ -10,6 +10,7 @@ import type { Role } from '@/types';
 
 export const PATHS = {
   login: '/accesso',
+  about: '/progetto',
   profile: '/profilo',
   history: '/storico',
   crewChecklist: '/checklist',
