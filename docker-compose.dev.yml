@@ -1,0 +1,41 @@
+# Ambiente di SVILUPPO del frontend ChainCheck118.
+# Il backend si avvia dal repo ChainCheck118-backend (docker-compose.dev.yml) ed è esposto
+# sull'host alla porta 3000.
+#
+#   docker compose -f docker-compose.dev.yml up --build        # Vite → http://localhost:5173
+#
+# - Il repo è montato nel container: Vite applica le modifiche con hot reload (HMR).
+# - Il proxy di Vite inoltra /api al backend (BACKEND_URL), come nginx in produzione.
+# - Se cambia package-lock.json basta riavviare il servizio: le dipendenze si riallineano da sole.
+# - Lint/typecheck: docker compose -f docker-compose.dev.yml exec web npm run lint
+#
+# Variabili (facoltative, da .env): VITE_USE_MOCKS, BACKEND_URL.
+
+name: chaincheck118-frontend-dev
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+      target: dev
+    restart: unless-stopped
+    init: true
+    environment:
+      VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
+      VITE_API_URL: /api
+      API_PROXY_TARGET: ${BACKEND_URL:-http://host.docker.internal:3000}
+      # I bind mount da Windows/macOS non propagano gli eventi del filesystem.
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "300"
+    # host.docker.internal anche su Linux (su Docker Desktop esiste già).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - web_node_modules:/app/node_modules
+
+volumes:
+  web_node_modules:

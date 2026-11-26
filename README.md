@@ -25,8 +25,23 @@ Utenti creati dal seed del backend (password `password123`):
 Con `VITE_USE_MOCKS=true` l'app funziona senza backend, con gli stessi utenti simulati.
 
 ## Docker
+```
+docker/
+  web/     Dockerfile (target dev | build | runtime), entrypoint.dev.sh, nginx.conf
+docker-compose.dev.yml   sviluppo: sorgenti montati, hot reload
+docker-compose.yml       immagine di produzione (nginx)
+```
+
+### Sviluppo
 ```sh
-docker compose up --build          # build servita da nginx → http://localhost:8080
-docker compose --profile dev up    # Vite con hot reload → http://localhost:5173
+docker compose -f docker-compose.dev.yml up --build -d    # Vite con HMR → http://localhost:5173
+```
+- Log: `docker compose -f docker-compose.dev.yml logs -f web`
+- Lint / typecheck: `docker compose -f docker-compose.dev.yml exec web npm run lint` (o `typecheck`)
+- Nuove dipendenze: dopo `npm install <pkg>` basta `docker compose -f docker-compose.dev.yml restart web`
+
+### Produzione
+```sh
+docker compose up --build -d     # build servita da nginx → http://localhost:8080
 ```
 In entrambi i casi il backend è raggiunto su `host.docker.internal:3000` (variabile `BACKEND_URL`).

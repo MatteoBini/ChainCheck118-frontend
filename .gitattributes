@@ -1,0 +1,2 @@
+# Script eseguiti nei container Linux: sempre LF.
+*.sh text eol=lf

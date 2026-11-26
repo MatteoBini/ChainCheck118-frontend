@@ -1,8 +1,8 @@
-# Frontend ChainCheck118. Il backend (API + Postgres) si avvia dal repo ChainCheck118-backend
-# con `docker compose up` ed è esposto sull'host alla porta 3000.
+# Frontend ChainCheck118 con immagine di PRODUZIONE (build statica servita da nginx).
+# Per sviluppare usa docker-compose.dev.yml.
+# Il backend si avvia dal repo ChainCheck118-backend ed è esposto sull'host alla porta 3000.
 #
-#   docker compose up --build                 # build di produzione servita da nginx → http://localhost:8080
-#   docker compose --profile dev up           # server di sviluppo Vite con hot reload → http://localhost:5173
+#   docker compose up --build -d        # → http://localhost:8080
 #
 # Variabili (facoltative, da .env): FRONTEND_PORT, VITE_USE_MOCKS, BACKEND_URL.
 
@@ -12,6 +12,8 @@ services:
   web:
     build:
       context: .
+      dockerfile: docker/web/Dockerfile
+      target: runtime
       args:
         VITE_API_URL: /api
         VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
@@ -19,24 +21,7 @@ services:
     restart: unless-stopped
     environment:
       BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:3000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "${FRONTEND_PORT:-8080}:80"
-
-  dev:
-    profiles: [dev]
-    image: node:22-alpine
-    working_dir: /app
-    command: sh -c "npm ci --no-audit --no-fund && npx vite --host 0.0.0.0 --port 5173"
-    environment:
-      VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
-      VITE_API_URL: ${VITE_API_URL:-/api}
-      API_PROXY_TARGET: ${BACKEND_URL:-http://host.docker.internal:3000}
-    volumes:
-      - .:/app
-      # node_modules separati dall'host (binari Linux).
-      - dev-modules:/app/node_modules
-    ports:
-      - "5173:5173"
-
-volumes:
-  dev-modules:

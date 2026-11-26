@@ -5,12 +5,13 @@ coverage
 .github
 .vscode
 .idea
+.claude
 .env
 .env.*
 !.env.example
 docs
 tests/e2e
 *.log
+*.tsbuildinfo
 .DS_Store
-Dockerfile
-.dockerignore
+docker-compose*.yml
