@@ -1,9 +1,11 @@
 import {
   AlertTriangle,
+  Ambulance,
   Clock,
   FileText,
   LayoutDashboard,
   Plus,
+  Users,
   type LucideIcon,
 } from 'lucide-react';
 import type { Role } from '@/types';
@@ -17,6 +19,8 @@ export const PATHS = {
   inspection: '/ispezione',
   dispatch: '/centrale',
   reports: '/segnalazioni',
+  vehicleRegistry: '/anagrafica/mezzi',
+  staffRegistry: '/anagrafica/personale',
 } as const;
 
 export interface NavItem {
@@ -52,6 +56,8 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
     items: [
       { to: PATHS.dispatch, label: 'Panoramica', icon: LayoutDashboard },
       { to: PATHS.history, label: 'Storico e audit', icon: FileText },
+      { to: PATHS.vehicleRegistry, label: 'Anagrafica mezzi', icon: Ambulance },
+      { to: PATHS.staffRegistry, label: 'Anagrafica personale', icon: Users },
     ],
   },
 };
