@@ -15,3 +15,4 @@ export type {
   InspectionResult,
   PendingInspection,
 } from './inspection';
+export type { NewUser, UserPatch, UserRecord, VehicleRecord } from './registry';
