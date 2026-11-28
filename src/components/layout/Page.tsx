@@ -4,7 +4,7 @@ interface PageProps {
   title: string;
   actions?: ReactNode;
   footer?: ReactNode;
-  width?: 'narrow' | 'default' | 'wide';
+  width?: 'narrow' | 'default' | 'wide' | 'fill';
   children: ReactNode;
 }
 
@@ -12,6 +12,7 @@ const WIDTH_CLASS: Record<NonNullable<PageProps['width']>, string> = {
   narrow: 'page-inner is-narrow',
   default: 'page-inner',
   wide: 'page-inner is-wide',
+  fill: 'page-inner is-fill',
 };
 
 export function Page({ title, actions, footer, width = 'default', children }: PageProps) {

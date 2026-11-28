@@ -1,0 +1,372 @@
+/* ---------- Pagina a tutta altezza (tabelle) ---------- */
+.page-inner.is-fill {
+  max-width: none;
+  height: 100%;
+}
+
+/* ---------- Tabella modificabile (stile foglio di calcolo) ---------- */
+.dg {
+  --dg-line: #E8E8E8;
+  --dg-row-h: 34px;
+  --dg-hover: #F7F8F9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-height: 0;
+  font-size: 13.5px;
+}
+
+.dg-scroll {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-width: 100%;
+  align-self: flex-start;
+  overflow: auto;
+  background: var(--surface);
+  border-top: 1px solid var(--dg-line);
+  border-left: 1px solid var(--dg-line);
+}
+
+.dg-table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+}
+
+.dg-table th,
+.dg-table td {
+  position: relative;
+  height: var(--dg-row-h);
+  padding: 0 8px;
+  border-right: 1px solid var(--dg-line);
+  border-bottom: 1px solid var(--dg-line);
+  background: var(--surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Intestazione sticky */
+.dg-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink3);
+}
+
+.dg-table .dg-th {
+  padding-right: 30px;
+}
+
+.dg-table .dg-th:hover {
+  background: #F4F5F6;
+}
+
+.dg-th-sort {
+  margin-left: 4px;
+  vertical-align: -2px;
+  color: var(--acc);
+}
+
+.dg-th-menu {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink3);
+  opacity: 0;
+}
+
+.dg-th:hover .dg-th-menu,
+.dg-th-menu:focus-visible,
+.dg-th-menu.is-open {
+  opacity: 1;
+}
+
+.dg-th-menu:hover,
+.dg-th-menu.is-open {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+/* Colonne bloccate a sinistra (numero e nome) */
+.dg-table .dg-sticky {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.dg-table thead .dg-sticky {
+  z-index: 4;
+}
+
+/* Colonna numero di riga */
+.dg-table .dg-num {
+  padding: 0;
+  text-align: center;
+  color: var(--ink3);
+  font-size: 12px;
+}
+
+.dg-index {
+  display: inline-block;
+  min-width: 16px;
+  margin-left: 12px;
+}
+
+.dg-check {
+  display: none;
+  width: 14px;
+  height: 14px;
+  margin: 0 0 0 12px;
+  vertical-align: middle;
+  accent-color: var(--acc);
+  cursor: pointer;
+}
+
+.dg-row:hover .dg-index,
+.dg-row.is-selected .dg-index,
+.dg-index.is-hidden,
+thead .dg-num:hover .dg-index {
+  display: none;
+}
+
+.dg-row:hover .dg-check,
+.dg-row.is-selected .dg-check,
+.dg-check.is-shown,
+thead .dg-num:hover .dg-check {
+  display: inline-block;
+}
+
+.dg-grip {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  display: inline-flex;
+  margin-top: -9px;
+  padding: 2px 0;
+  border-radius: 3px;
+  color: #9AA2A9;
+  cursor: grab;
+  opacity: 0;
+}
+
+.dg-grip:hover {
+  background: var(--hover);
+  color: var(--ink2);
+}
+
+.dg-grip.is-disabled {
+  cursor: not-allowed;
+}
+
+.dg-row:hover .dg-grip {
+  opacity: 1;
+}
+
+.dg-row:hover .dg-grip.is-disabled {
+  opacity: 0.35;
+}
+
+/* Righe: nessuna zebratura, solo hover e selezione */
+.dg-row:hover > td {
+  background: var(--dg-hover);
+}
+
+.dg-row.is-selected > td {
+  background: #EEF4F8;
+}
+
+.dg-row.is-dragging > td {
+  opacity: 0.5;
+}
+
+.dg-row.is-drop-before > td {
+  box-shadow: inset 0 2px 0 var(--acc);
+}
+
+.dg-row.is-drop-after > td {
+  box-shadow: inset 0 -2px 0 var(--acc);
+}
+
+.dg-cell {
+  cursor: text;
+}
+
+.dg-cell.is-muted {
+  color: var(--ink3);
+  letter-spacing: 0.08em;
+}
+
+.dg-cell.is-locked {
+  cursor: default;
+  color: var(--ink2);
+}
+
+.dg-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Cella attiva: bordo da 2px sovrapposto, senza spostare il layout */
+.dg-cell.is-active::after,
+.dg-add .dg-cell:focus-within::after,
+.dg-cell.is-missing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--acc);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dg-cell.is-missing:not(:focus-within)::after {
+  border-color: var(--bad);
+}
+
+.dg-input {
+  display: block;
+  width: 100%;
+  height: calc(var(--dg-row-h) - 2px);
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+.dg-input::placeholder {
+  color: #A5ACB2;
+}
+
+select.dg-input {
+  cursor: pointer;
+}
+
+/* Riga di aggiunta */
+.dg-add {
+  cursor: text;
+}
+
+.dg-add:hover > td,
+.dg-add.is-open > td {
+  background: var(--dg-hover);
+}
+
+.dg-add.is-open > .dg-cell {
+  background: var(--surface);
+}
+
+.dg-table .dg-act {
+  padding: 0;
+  text-align: center;
+}
+
+.dg-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #B3B9BF;
+  vertical-align: middle;
+}
+
+.dg-send:disabled {
+  cursor: default;
+}
+
+.dg-send.is-ready {
+  background: var(--acc);
+  color: #fff;
+}
+
+.dg-send.is-ready:hover {
+  background: var(--acc-h);
+}
+
+/* Piede: conteggi, ordinamento attivo, errori */
+.dg-foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 28px;
+  font-size: 12.5px;
+  color: var(--ink3);
+}
+
+.dg-msg {
+  font-size: 12.5px;
+}
+
+.dg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink2);
+  font-size: 12px;
+}
+
+.dg-chip:hover {
+  background: #F1F3F4;
+}
+
+/* Menu colonna */
+.dg-menu {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(21, 25, 30, 0.08);
+}
+
+.dg-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  text-align: left;
+}
+
+.dg-menu button:hover {
+  background: var(--hover);
+}

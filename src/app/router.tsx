@@ -6,6 +6,7 @@ import { CrewChecklistPage } from '@/features/crew-checklist';
 import { DispatchDashboardPage } from '@/features/dispatch-dashboard';
 import { InspectorPage } from '@/features/inspector';
 import { AboutPage, LandingPage } from '@/features/landing';
+import { StaffRegistryPage, VehicleRegistryPage } from '@/features/registry';
 import { MyReportsPage } from '@/features/reports';
 import { RequireAuth, RequireRole } from './guards';
 import { HomeRedirect } from './HomeRedirect';
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
           },
           {
             element: <RequireRole roles={['OPERATORE']} />,
-            children: [{ path: PATHS.dispatch, element: <DispatchDashboardPage /> }],
+            children: [
+              { path: PATHS.dispatch, element: <DispatchDashboardPage /> },
+              { path: PATHS.vehicleRegistry, element: <VehicleRegistryPage /> },
+              { path: PATHS.staffRegistry, element: <StaffRegistryPage /> },
+            ],
           },
           { path: '*', element: <HomeRedirect /> },
         ],
