@@ -3,13 +3,16 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+  const target = env.API_PROXY_TARGET || 'http://localhost:3000';
   // Il backend non ha prefisso /api né CORS: il proxy fa come nginx in produzione.
   const proxy = {
     '/api': {
-      target: env.API_PROXY_TARGET || 'http://localhost:3000',
+      target,
       changeOrigin: true,
       rewrite: (path: string) => path.replace(/^\/api/, ''),
     },
+    // Socket.IO della mappa in tempo reale: stesso path sul backend, con upgrade a WebSocket.
+    '/socket.io': { target, ws: true, changeOrigin: true },
   };
 
   return {

@@ -5,7 +5,7 @@
 #   docker compose -f docker-compose.dev.yml up --build        # Vite → http://localhost:5173
 #
 # - Il repo è montato nel container: Vite applica le modifiche con hot reload (HMR).
-# - Il proxy di Vite inoltra /api al backend (BACKEND_URL), come nginx in produzione.
+# - Il proxy di Vite inoltra /api e /socket.io al backend (BACKEND_URL), come nginx in produzione.
 # - Se cambia package-lock.json basta riavviare il servizio: le dipendenze si riallineano da sole.
 # - Lint/typecheck: docker compose -f docker-compose.dev.yml exec web npm run lint
 #
