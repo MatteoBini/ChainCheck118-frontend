@@ -4,6 +4,7 @@ import {
   Clock,
   FileText,
   LayoutDashboard,
+  Map as MapIcon,
   Plus,
   Users,
   type LucideIcon,
@@ -21,6 +22,7 @@ export const PATHS = {
   reports: '/segnalazioni',
   vehicleRegistry: '/anagrafica/mezzi',
   staffRegistry: '/anagrafica/personale',
+  map: '/mappa',
 } as const;
 
 export interface NavItem {
@@ -42,6 +44,7 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
     items: [
       { to: PATHS.history, label: 'Storico', icon: Clock },
       { to: PATHS.reports, label: 'Segnalazioni', icon: AlertTriangle },
+      { to: PATHS.map, label: 'Mappa', icon: MapIcon },
     ],
     recentsTitle: 'Recenti',
   },
@@ -49,12 +52,14 @@ export const NAV_CONFIG: Readonly<Record<Role, RoleNav>> = {
     primary: { to: PATHS.inspection, label: 'Ispezioni', icon: Plus },
     items: [
       { to: PATHS.history, label: 'Storico', icon: Clock },
+      { to: PATHS.map, label: 'Mappa', icon: MapIcon },
     ],
     recentsTitle: 'Recenti',
   },
   OPERATORE: {
     items: [
       { to: PATHS.dispatch, label: 'Panoramica', icon: LayoutDashboard },
+      { to: PATHS.map, label: 'Mappa', icon: MapIcon },
       { to: PATHS.history, label: 'Storico e audit', icon: FileText },
       { to: PATHS.vehicleRegistry, label: 'Anagrafica mezzi', icon: Ambulance },
       { to: PATHS.staffRegistry, label: 'Anagrafica personale', icon: Users },
