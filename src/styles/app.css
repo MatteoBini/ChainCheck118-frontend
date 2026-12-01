@@ -695,6 +695,12 @@ a {
   gap: 20px;
 }
 
+.other-tab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .auth-brand {
   align-self: flex-start;
   padding-left: 0;
