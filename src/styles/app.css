@@ -677,6 +677,104 @@ a {
   color: var(--ink2);
 }
 
+/* ---------- Mappa ---------- */
+.map-frame {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 320px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--line2);
+}
+
+.map-canvas {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-ui);
+}
+
+.map-notice {
+  padding: 10px 14px;
+  border-radius: var(--r-ctl);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 13.5px;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--ink2);
+}
+
+.map-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-legend .map-marker {
+  width: 20px;
+  height: 20px;
+  font-size: 10.5px;
+  box-shadow: none;
+}
+
+.map-legend .map-marker.is-inspector {
+  width: 16px;
+  height: 16px;
+}
+
+/* divIcon senza lo sfondo bianco predefinito di Leaflet. */
+.map-icon {
+  background: none;
+  border: none;
+}
+
+.map-marker {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #fff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(21, 25, 30, 0.35);
+}
+
+.map-marker.is-crew {
+  border-radius: 50%;
+  background: var(--acc);
+}
+
+/* Quadrato ruotato (rombo); la lettera resta dritta. */
+.map-marker.is-inspector {
+  width: 22px;
+  height: 22px;
+  margin: 2px;
+  border-radius: 3px;
+  background: var(--warn);
+  transform: rotate(45deg);
+}
+
+.map-marker.is-inspector > span {
+  transform: rotate(-45deg);
+}
+
+.map-marker.is-own {
+  box-shadow:
+    0 0 0 4px rgba(29, 78, 107, 0.25),
+    0 1px 4px rgba(21, 25, 30, 0.35);
+}
+
 /* ---------- Accesso ---------- */
 .auth {
   display: flex;
