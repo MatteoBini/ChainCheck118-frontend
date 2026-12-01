@@ -128,6 +128,19 @@ export function RealtimeProvider({ children }: RealtimeProviderProps) {
     socket.on('session:replaced', block);
     socket.on('session:expired', () => void signOut());
 
+    // Chiudendo la scheda il browser non sempre chiude il WebSocket in modo pulito, e il
+    // server se ne accorgerebbe solo al ping timeout (~45 s): nel frattempo una nuova
+    // scheda vedrebbe "aperto in un'altra scheda". La disconnessione esplicita lo avvisa
+    // subito. Se la pagina torna dalla bfcache, ci si ricollega.
+    function onPageHide() {
+      socket.disconnect();
+    }
+    function onPageShow(event: PageTransitionEvent) {
+      if (event.persisted && !blocked) socket.connect();
+    }
+    window.addEventListener('pagehide', onPageHide);
+    window.addEventListener('pageshow', onPageShow);
+
     if (role === 'OPERATORE') {
       socket.on('presence:snapshot', ({ users }) => {
         setPresences(new Map(users.map((p) => [p.userId, p])));
@@ -158,6 +171,8 @@ export function RealtimeProvider({ children }: RealtimeProviderProps) {
     }
 
     return () => {
+      window.removeEventListener('pagehide', onPageHide);
+      window.removeEventListener('pageshow', onPageShow);
       stopSimulation();
       clearTimeout(retryTimer);
       socket.off();
